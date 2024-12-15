@@ -780,6 +780,167 @@ void Cmd_Wave_f (edict_t *ent)
 }
 
 /*
+=================
+Cmd_Beast_f
+=================
+*/
+void Cmd_Beast_f(edict_t* ent)
+{
+	if (ent->client->pers.BootsCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Combat Boots (Size 10)\n");
+	if (ent->client->pers.BassCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Largemouth Bass (micropterus salmoides)\n");
+	if (ent->client->pers.PerchCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Yellow Perch (perca flavescens)\n");
+	if (ent->client->pers.CatfishCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Channel Catfish (ictalurus punctatus)\n");
+	if (ent->client->pers.GrouperCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Black Grouper (mycteroperca bonaci)\n");
+	if (ent->client->pers.TunaCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Longfin Tuna (thunnus alalunga)\n");
+	if (ent->client->pers.OctopusCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Common Octopus (octopus vulgaris)\n");
+	if (ent->client->pers.DogfishCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Spiny Dogfish (squalus acanthias)\n");
+	if (ent->client->pers.SturgeonCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Lake Sturgeon (acipenser fulvescens)\n");
+	if (ent->client->pers.CoelecanthCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("West Indian Ocean Coelecanth (latimeria chalumnae)\n");
+}
+
+/*
+=================
+Cmd_Sell_f
+=================
+*/
+void Cmd_Sell_f(edict_t* ent)
+{
+	int sum;
+	sum = 0;
+	sum += (ent->client->pers.noBoots) * 15;
+	ent->client->pers.noBoots = 0;
+	sum += (ent->client->pers.noBass) * 50;
+	ent->client->pers.noBass = 0;
+	sum += (ent->client->pers.noPerch) * 75;
+	ent->client->pers.noPerch = 0;
+	
+	sum = sum + (sum * (ent->client->pers.hookLevel)) / 2;
+	sum = sum + (sum * (ent->client->pers.luckLevel));
+	ent->client->pers.money += sum;
+}
+
+/*
+=================
+Cmd_UpgradeLine_f
+=================
+*/
+void Cmd_UpgradeLine_f(edict_t* ent)
+{
+	if (ent->client->pers.lineLevel == 0) {
+		if (ent->client->pers.money >= 15) {
+			ent->client->pers.money -= 15;
+			ent->client->pers.lineLevel = 1;
+		}
+		else
+			gi.dprintf("Not enough money");
+	}
+	else
+		gi.dprintf("Max level\n");
+}
+
+/*
+=================
+Cmd_UpgradeBait_f
+=================
+*/
+void Cmd_UpgradeBait_f(edict_t* ent)
+{
+	if (ent->client->pers.money >= 15) {
+		ent->client->pers.money -= 15;
+		ent->client->pers.lineLevel = 1;
+	}
+	else
+		gi.dprintf("Not enough money\n");
+}
+
+/*
+=================
+Cmd_UpgradeLure_f
+=================
+*/
+void Cmd_UpgradeLure_f(edict_t* ent)
+{
+	if (ent->client->pers.lureLevel == 0) {
+		if (ent->client->pers.money >= 50) {
+			ent->client->pers.money -= 50;
+			ent->client->pers.lureLevel = 1;
+		}
+		else
+			gi.dprintf("Not enough money\n");
+	}
+	else
+		gi.dprintf("Max level\n");
+}
+
+/*
+=================
+Cmd_UpgradeHook_f
+=================
+*/
+void Cmd_UpgradeHook_f(edict_t* ent)
+{
+	if (ent->client->pers.hookLevel == 0) {
+		if (ent->client->pers.money >= 75) {
+			ent->client->pers.money -= 75;
+			ent->client->pers.hookLevel = 1;
+		}
+		else
+			gi.dprintf("Not enough money\n");
+	}
+	else
+		gi.dprintf("Max level\n");
+}
+
+/*
+=================
+Cmd_UpgradeLuck_f
+=================
+*/
+void Cmd_UpgradeLuck_f(edict_t* ent)
+{
+	if (ent->client->pers.luckLevel == 0) {
+		if (ent->client->pers.money >= 15000) {
+			ent->client->pers.money -= 15000;
+			ent->client->pers.luckLevel = 1;
+		}
+		else
+			gi.dprintf("Not enough money\n");
+	}
+	else
+		gi.dprintf("Max level\n");
+}
+
+/*
 ==================
 Cmd_Say_f
 ==================
@@ -943,50 +1104,64 @@ void ClientCommand (edict_t *ent)
 	if (level.intermissiontime)
 		return;
 
-	if (Q_stricmp (cmd, "use") == 0)
-		Cmd_Use_f (ent);
-	else if (Q_stricmp (cmd, "drop") == 0)
-		Cmd_Drop_f (ent);
-	else if (Q_stricmp (cmd, "give") == 0)
-		Cmd_Give_f (ent);
-	else if (Q_stricmp (cmd, "god") == 0)
-		Cmd_God_f (ent);
-	else if (Q_stricmp (cmd, "notarget") == 0)
-		Cmd_Notarget_f (ent);
-	else if (Q_stricmp (cmd, "noclip") == 0)
-		Cmd_Noclip_f (ent);
-	else if (Q_stricmp (cmd, "inven") == 0)
-		Cmd_Inven_f (ent);
-	else if (Q_stricmp (cmd, "invnext") == 0)
-		SelectNextItem (ent, -1);
-	else if (Q_stricmp (cmd, "invprev") == 0)
-		SelectPrevItem (ent, -1);
-	else if (Q_stricmp (cmd, "invnextw") == 0)
-		SelectNextItem (ent, IT_WEAPON);
-	else if (Q_stricmp (cmd, "invprevw") == 0)
-		SelectPrevItem (ent, IT_WEAPON);
-	else if (Q_stricmp (cmd, "invnextp") == 0)
-		SelectNextItem (ent, IT_POWERUP);
-	else if (Q_stricmp (cmd, "invprevp") == 0)
-		SelectPrevItem (ent, IT_POWERUP);
-	else if (Q_stricmp (cmd, "invuse") == 0)
-		Cmd_InvUse_f (ent);
-	else if (Q_stricmp (cmd, "invdrop") == 0)
-		Cmd_InvDrop_f (ent);
-	else if (Q_stricmp (cmd, "weapprev") == 0)
-		Cmd_WeapPrev_f (ent);
-	else if (Q_stricmp (cmd, "weapnext") == 0)
-		Cmd_WeapNext_f (ent);
-	else if (Q_stricmp (cmd, "weaplast") == 0)
-		Cmd_WeapLast_f (ent);
-	else if (Q_stricmp (cmd, "kill") == 0)
-		Cmd_Kill_f (ent);
-	else if (Q_stricmp (cmd, "putaway") == 0)
-		Cmd_PutAway_f (ent);
-	else if (Q_stricmp (cmd, "wave") == 0)
-		Cmd_Wave_f (ent);
+	if (Q_stricmp(cmd, "use") == 0)
+		Cmd_Use_f(ent);
+	else if (Q_stricmp(cmd, "drop") == 0)
+		Cmd_Drop_f(ent);
+	else if (Q_stricmp(cmd, "give") == 0)
+		Cmd_Give_f(ent);
+	else if (Q_stricmp(cmd, "god") == 0)
+		Cmd_God_f(ent);
+	else if (Q_stricmp(cmd, "notarget") == 0)
+		Cmd_Notarget_f(ent);
+	else if (Q_stricmp(cmd, "noclip") == 0)
+		Cmd_Noclip_f(ent);
+	else if (Q_stricmp(cmd, "inven") == 0)
+		Cmd_Inven_f(ent);
+	else if (Q_stricmp(cmd, "invnext") == 0)
+		SelectNextItem(ent, -1);
+	else if (Q_stricmp(cmd, "invprev") == 0)
+		SelectPrevItem(ent, -1);
+	else if (Q_stricmp(cmd, "invnextw") == 0)
+		SelectNextItem(ent, IT_WEAPON);
+	else if (Q_stricmp(cmd, "invprevw") == 0)
+		SelectPrevItem(ent, IT_WEAPON);
+	else if (Q_stricmp(cmd, "invnextp") == 0)
+		SelectNextItem(ent, IT_POWERUP);
+	else if (Q_stricmp(cmd, "invprevp") == 0)
+		SelectPrevItem(ent, IT_POWERUP);
+	else if (Q_stricmp(cmd, "invuse") == 0)
+		Cmd_InvUse_f(ent);
+	else if (Q_stricmp(cmd, "invdrop") == 0)
+		Cmd_InvDrop_f(ent);
+	else if (Q_stricmp(cmd, "weapprev") == 0)
+		Cmd_WeapPrev_f(ent);
+	else if (Q_stricmp(cmd, "weapnext") == 0)
+		Cmd_WeapNext_f(ent);
+	else if (Q_stricmp(cmd, "weaplast") == 0)
+		Cmd_WeapLast_f(ent);
+	else if (Q_stricmp(cmd, "kill") == 0)
+		Cmd_Kill_f(ent);
+	else if (Q_stricmp(cmd, "putaway") == 0)
+		Cmd_PutAway_f(ent);
+	else if (Q_stricmp(cmd, "wave") == 0)
+		Cmd_Wave_f(ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "beast") == 0)
+		Cmd_Beast_f(ent);
+	else if (Q_stricmp(cmd, "sell") == 0)
+		Cmd_Sell_f(ent);
+	else if (Q_stricmp(cmd, "line") == 0)
+		Cmd_UpgradeLine_f(ent);
+	else if (Q_stricmp(cmd, "bait") == 0)
+		Cmd_UpgradeBait_f(ent);
+	else if (Q_stricmp(cmd, "lure") == 0)
+		Cmd_UpgradeLure_f(ent);
+	else if (Q_stricmp(cmd, "hook") == 0)
+		Cmd_UpgradeHook_f(ent);
+	else if (Q_stricmp(cmd, "luck") == 0)
+		Cmd_UpgradeLuck_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

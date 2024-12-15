@@ -725,7 +725,17 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
+	if (ent->client->pers.lineLevel == 1) {
+		if (ent->client->pers.lureLevel == 1) {
+			fire_grenade(ent, start, forward, damage, 2000, 1.0, radius);
+		}
+		else 
+			fire_grenade(ent, start, forward, damage, 2000, 2.5, radius);
+	}
+	else if (ent->client->pers.lureLevel == 1) 
+		fire_grenade(ent, start, forward, damage, 600, 1.0, radius);
+	else 
+		fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -738,6 +748,27 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 
 	if (! ( (int)dmflags->value & DF_INFINITE_AMMO ) )
 		ent->client->pers.inventory[ent->client->ammo_index]--;
+
+	if (ent->client->pers.baitLevel == 0) {
+		if (ent->client->pers.BootsCaught == false) {
+			ent->client->pers.BootsCaught = true;
+			ent->client->pers.noBoots += 1;
+		}
+		else if (ent->client->pers.BassCaught == false) {
+			ent->client->pers.BassCaught = true;
+			ent->client->pers.noBass += 1;
+		}
+		else if (ent->client->pers.PerchCaught == false) {
+			ent->client->pers.PerchCaught = true;
+			ent->client->pers.noPerch += 1;
+		}
+		else {
+			ent->client->pers.CatfishCaught = true;
+			ent->client->pers.noCatfish += 1;
+		}
+	}
+	
+
 }
 
 void Weapon_GrenadeLauncher (edict_t *ent)
@@ -832,16 +863,7 @@ void Blaster_Fire (edict_t *ent, vec3_t g_offset, int damage, qboolean hyper, in
 	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
 
 	start[0] += right[0] * 10;
-	start[1] += right[1] * 10;
-	start[2] += right[2] * 10;
-
-	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
-
-	start[0] -= right[0] * 20;
-	start[1] -= right[1] * 20;
-	start[2] -= right[2] * 20;
-
-	fire_blaster (ent, start, forward, damage, 1000, effect, hyper);
+	gi.dprintf("shot fired\n");
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);

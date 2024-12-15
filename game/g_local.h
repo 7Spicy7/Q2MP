@@ -841,6 +841,36 @@ typedef struct
 	int			max_health;
 	int			savedFlags;
 
+
+	int         money;
+	int         noBoots;
+	int         noBass;
+	int         noPerch;
+	int         noCatfish;
+	int         noGroupers;
+	int         noDogfish;
+	int         noOctopi;
+	int         noTuna;
+	int         noSturgeon;
+	int         noCoelecanth;
+	int         baitLevel;
+	int         lineLevel;
+	int         lureLevel;
+	int         hookLevel;
+	int         luckLevel;
+
+	qboolean    BootsCaught;
+	qboolean    BassCaught;
+	qboolean    PerchCaught;
+	qboolean    CatfishCaught;
+	qboolean    GrouperCaught;
+	qboolean    DogfishCaught;
+	qboolean    OctopusCaught;
+	qboolean    TunaCaught;
+	qboolean    SturgeonCaught;
+	qboolean    CoelecanthCaught;
+
+
 	int			selected_item;
 	int			inventory[MAX_ITEMS];
 

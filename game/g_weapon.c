@@ -435,7 +435,10 @@ static void Grenade_Explode (edict_t *ent)
 	if (ent->waterlevel)
 	{
 		if (ent->groundentity)
-			gi.WriteByte (TE_GRENADE_EXPLOSION_WATER);
+		{
+			gi.WriteByte(TE_GRENADE_EXPLOSION_WATER);
+			gi.dprintf("You got a bite!\n");
+		}
 		else
 			gi.WriteByte (TE_ROCKET_EXPLOSION_WATER);
 	}

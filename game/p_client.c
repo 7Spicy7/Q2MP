@@ -619,6 +619,35 @@ void InitClientPersistant (gclient_t *client)
 	client->pers.health			= 100;
 	client->pers.max_health		= 100;
 
+	client->pers.money          = 0;
+	client->pers.baitLevel      = 0;
+	client->pers.lineLevel      = 0;
+	client->pers.lureLevel      = 0;
+	client->pers.hookLevel      = 0;
+	client->pers.luckLevel      = 0;
+
+	client->pers.noBoots        = 0;
+	client->pers.noBass         = 0;
+	client->pers.noPerch        = 0;
+	client->pers.noCatfish      = 0;
+	client->pers.noGroupers     = 0;
+	client->pers.noDogfish      = 0;
+	client->pers.noOctopi       = 0;
+	client->pers.noTuna         = 0;
+	client->pers.noSturgeon     = 0;
+	client->pers.noCoelecanth   = 0;
+
+	client->pers.BootsCaught    = false;
+	client->pers.BassCaught     = false;
+	client->pers.PerchCaught    = false;
+	client->pers.CatfishCaught  = false;
+	client->pers.GrouperCaught  = false;
+	client->pers.DogfishCaught  = false;
+	client->pers.OctopusCaught  = false;
+	client->pers.TunaCaught     = false;
+	client->pers.SturgeonCaught = false;
+	client->pers.CoelecanthCaught = false;
+
 	client->pers.max_bullets	= 200;
 	client->pers.max_shells		= 100;
 	client->pers.max_rockets	= 50;
