@@ -806,10 +806,6 @@ void Cmd_Beast_f(edict_t* ent)
 		gi.dprintf("???\n");
 	else
 		gi.dprintf("Black Grouper (mycteroperca bonaci)\n");
-	if (ent->client->pers.TunaCaught == false)
-		gi.dprintf("???\n");
-	else
-		gi.dprintf("Longfin Tuna (thunnus alalunga)\n");
 	if (ent->client->pers.OctopusCaught == false)
 		gi.dprintf("???\n");
 	else
@@ -818,6 +814,10 @@ void Cmd_Beast_f(edict_t* ent)
 		gi.dprintf("???\n");
 	else
 		gi.dprintf("Spiny Dogfish (squalus acanthias)\n");
+	if (ent->client->pers.TunaCaught == false)
+		gi.dprintf("???\n");
+	else
+		gi.dprintf("Longfin Tuna (thunnus alalunga)\n");
 	if (ent->client->pers.SturgeonCaught == false)
 		gi.dprintf("???\n");
 	else
@@ -873,6 +873,7 @@ void Cmd_UpgradeLine_f(edict_t* ent)
 		if (ent->client->pers.money >= 15) {
 			ent->client->pers.money -= 15;
 			ent->client->pers.lineLevel = 1;
+			gi.dprintf("Line maxed\n");
 		}
 		else
 			gi.dprintf("Not enough money\n");
@@ -930,6 +931,7 @@ void Cmd_UpgradeLure_f(edict_t* ent)
 		if (ent->client->pers.money >= 50) {
 			ent->client->pers.money -= 50;
 			ent->client->pers.lureLevel = 1;
+			gi.dprintf("Lure maxed\n");
 		}
 		else
 			gi.dprintf("Not enough money\n");
@@ -949,6 +951,7 @@ void Cmd_UpgradeHook_f(edict_t* ent)
 		if (ent->client->pers.money >= 75) {
 			ent->client->pers.money -= 75;
 			ent->client->pers.hookLevel = 1;
+			gi.dprintf("Hook maxed\n");
 		}
 		else
 			gi.dprintf("Not enough money\n");
@@ -968,12 +971,28 @@ void Cmd_UpgradeLuck_f(edict_t* ent)
 		if (ent->client->pers.money >= 15000) {
 			ent->client->pers.money -= 15000;
 			ent->client->pers.luckLevel = 1;
+			gi.dprintf("Luck maxed\n");
 		}
 		else
 			gi.dprintf("Not enough money\n");
 	}
 	else
 		gi.dprintf("Max level\n");
+}
+
+/*
+=================
+Cmd_HelpFish_f
+=================
+*/
+void Cmd_HelpFish_f(edict_t* ent)
+{
+	gi.dprintf("Wanna start fishin'? Nuthin to it.\n");
+	gi.dprintf("Just grab yer trusty fishin' rod (shaped a LOT like a grenade launcher...) by pressin' 6.\n");
+	gi.dprintf("Then, when yer at a body o' water, shoot into it!\n");
+	gi.dprintf("You'll only get a bite if your grenade-shaped bobber is under the water when it... erm... explodes???\n");
+	gi.dprintf("Guess this is more rocket fishin'.\n");
+	gi.dprintf("Happy fishin', friend!\n");
 }
 
 /*
@@ -1198,6 +1217,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_UpgradeHook_f(ent);
 	else if (Q_stricmp(cmd, "luck") == 0)
 		Cmd_UpgradeLuck_f(ent);
+	else if (Q_stricmp(cmd, "helpfish") == 0)
+		Cmd_HelpFish_f(ent);
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

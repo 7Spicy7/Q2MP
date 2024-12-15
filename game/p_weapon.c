@@ -773,11 +773,11 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 			ent->client->pers.noGroupers += 1;
 		}
 		else if (ent->client->pers.DogfishCaught == false) {
-			ent->client->pers.DogfishCaught == true;
+			ent->client->pers.DogfishCaught = true;
 			ent->client->pers.noDogfish += 1;
 		}
 		else {
-			ent->client->pers.OctopusCaught == true;
+			ent->client->pers.OctopusCaught = true;
 			ent->client->pers.noOctopi += 1;
 		}
 	}
