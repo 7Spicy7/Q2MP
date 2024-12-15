@@ -767,6 +767,34 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 			ent->client->pers.noCatfish += 1;
 		}
 	}
+	else if (ent->client->pers.baitLevel == 1) {
+		if (ent->client->pers.GrouperCaught == false) {
+			ent->client->pers.GrouperCaught = true;
+			ent->client->pers.noGroupers += 1;
+		}
+		else if (ent->client->pers.DogfishCaught == false) {
+			ent->client->pers.DogfishCaught == true;
+			ent->client->pers.noDogfish += 1;
+		}
+		else {
+			ent->client->pers.OctopusCaught == true;
+			ent->client->pers.noOctopi += 1;
+		}
+	}
+	else if (ent->client->pers.baitLevel == 2) {
+		if (ent->client->pers.TunaCaught == false) {
+			ent->client->pers.TunaCaught = true;
+			ent->client->pers.noTuna += 1;
+		}
+		else {
+			ent->client->pers.SturgeonCaught = true;
+			ent->client->pers.noSturgeon += 1;
+		}
+	}
+	else {
+		ent->client->pers.CoelecanthCaught = true;
+		ent->client->pers.noCoelecanth += 1;
+	}
 	
 
 }

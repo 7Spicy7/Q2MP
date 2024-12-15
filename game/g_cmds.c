@@ -843,7 +843,20 @@ void Cmd_Sell_f(edict_t* ent)
 	ent->client->pers.noBass = 0;
 	sum += (ent->client->pers.noPerch) * 75;
 	ent->client->pers.noPerch = 0;
-	
+	sum += (ent->client->pers.noCatfish) * 125;
+	ent->client->pers.noCatfish = 0;
+	sum += (ent->client->pers.noGroupers) * 150;
+	ent->client->pers.noGroupers = 0;
+	sum += (ent->client->pers.noDogfish) * 200;
+	ent->client->pers.noDogfish = 0;
+	sum += (ent->client->pers.noOctopi) * 300;
+	ent->client->pers.noOctopi = 0;
+	sum += (ent->client->pers.noTuna) * 500;
+	ent->client->pers.noTuna = 0;
+	sum += (ent->client->pers.noSturgeon) * 750;
+	ent->client->pers.noSturgeon = 0;
+	sum += (ent->client->pers.noCoelecanth) * 10000;
+	ent->client->pers.noCoelecanth = 0;
 	sum = sum + (sum * (ent->client->pers.hookLevel)) / 2;
 	sum = sum + (sum * (ent->client->pers.luckLevel));
 	ent->client->pers.money += sum;
@@ -862,7 +875,7 @@ void Cmd_UpgradeLine_f(edict_t* ent)
 			ent->client->pers.lineLevel = 1;
 		}
 		else
-			gi.dprintf("Not enough money");
+			gi.dprintf("Not enough money\n");
 	}
 	else
 		gi.dprintf("Max level\n");
@@ -875,12 +888,35 @@ Cmd_UpgradeBait_f
 */
 void Cmd_UpgradeBait_f(edict_t* ent)
 {
-	if (ent->client->pers.money >= 15) {
-		ent->client->pers.money -= 15;
-		ent->client->pers.lineLevel = 1;
+	if (ent->client->pers.baitLevel == 0) {
+		if (ent->client->pers.money >= 125) {
+			ent->client->pers.money -= 125;
+			ent->client->pers.baitLevel = 1;
+			gi.dprintf("Bait upgraded to Lv 1\n");
+		}
+		else
+			gi.dprintf("Not enough money\n");
+	}
+	else if (ent->client->pers.baitLevel == 1) {
+		if (ent->client->pers.money >= 1000) {
+			ent->client->pers.money -= 1000;
+			ent->client->pers.baitLevel = 2;
+			gi.dprintf("Bait upgraded to Lv 2\n");
+		}
+		else
+			gi.dprintf("Not enough money\n");
+	}
+	else if (ent->client->pers.baitLevel == 2) {
+		if (ent->client->pers.money >= 5000) {
+			ent->client->pers.money -= 5000;
+			ent->client->pers.baitLevel = 3;
+			gi.dprintf("Bait maxed\n");
+		}
+		else
+			gi.dprintf("Not enough money\n");
 	}
 	else
-		gi.dprintf("Not enough money\n");
+		gi.dprintf("Max level\n");
 }
 
 /*
